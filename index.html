@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zyydev — Portfolio & Developer</title>
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --card-bg: #1a1b26;
+            --accent: #00ff66;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --border: #2f3542;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: monospace, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+
+        /* Avatar Logo Style */
+        .avatar-container {
+            margin-bottom: 15px;
+        }
+
+        .avatar-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.2);
+        }
+
+        header h1 {
+            color: var(--accent);
+            margin: 0 0 10px 0;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            margin: 0 0 15px 0;
+            font-size: 14px;
+        }
+
+        .bio {
+            font-size: 13px;
+            color: var(--text-main);
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+        }
+
+        .contact-btn-head {
+            display: inline-block;
+            background: var(--accent);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: var(--accent);
+            font-size: 18px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-tag {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--accent);
+        }
+
+        .filter-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--card-bg);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+            font-weight: bold;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .project-card h3 {
+            margin: 0 0 10px 0;
+            color: var(--text-main);
+            font-size: 16px;
+        }
+
+        .project-card p {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin: 0 0 15px 0;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            font-size: 12px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-delete {
+            background: #ff5370;
+            color: #fff;
+            width: 35px;
+            flex-shrink: 0;
+        }
+
+        .form-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .form-box input, .form-box select, .form-box textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            color: #fff;
+            border-radius: 6px;
+            font-family: monospace;
+            box-sizing: border-box;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+        }
+
+        .modal-content h3 {
+            color: var(--accent);
+            margin-top: 0;
+        }
+
+        .close-btn {
+            background: #ff5370;
+            color: #fff;
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 12px;
+            margin-top: 50px;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="avatar-container">
+                <img src="565942.jpg" alt="zyydev Logo" class="avatar-img">
+            </div>
+            <h1>ZYYDEV</h1>
+            <p>Programmer & Full-Stack Web Developer</p>
+            <div class="bio">
+                Fokus pada pengembangan aplikasi web full-stack, integrasi API kustom, skrip automasi, dan arsitektur UI minimalis yang efisien.
+            </div>
+            <a href="#contact" class="contact-btn-head">HUBUNGI SAYA</a>
+        </header>
+
+        <section>
+            <h2>// TECH STACK</h2>
+            <div class="skills-grid">
+                <div class="skill-tag">HTML / JavaScript</div>
+                <div class="skill-tag">Node.js / Express</div>
+                <div class="skill-tag">FastAPI</div>
+                <div class="skill-tag">Flutter</div>
+                <div class="skill-tag">Google Apps Script</div>
+                <div class="skill-tag">Google Sheets DB</div>
+                <div class="skill-tag">GitHub Pages</div>
+            </div>
+        </section>
+
+        <!-- Form Tambah Proyek Baru -->
+        <section>
+            <h2>// TAMBAH PROYEK BARU</h2>
+            <div class="form-box">
+                <input type="text" id="projTitle" placeholder="Judul Proyek..." required>
+                <select id="projCategory">
+                    <option value="web">Kategori: Web Application</option>
+                    <option value="mobile">Kategori: Mobile App</option>
+                    <option value="script">Kategori: Script / System</option>
+                </select>
+                <input type="text" id="projShort" placeholder="Ringkasan Singkat (Muncul di kartu)..." required>
+                <textarea id="projDetail" rows="3" placeholder="Deskripsi Detail (Muncul saat tombol Lihat Detail diklik)..." required></textarea>
+                <button class="btn" onclick="addProject()">+ TAMBAHKAN PROYEK</button>
+            </div>
+        </section>
+
+        <section>
+            <h2>// FEATURED PROJECTS</h2>
+            
+            <div class="filter-container">
+                <button class="filter-btn active" onclick="filterProjects('all', this)">All</button>
+                <button class="filter-btn" onclick="filterProjects('web', this)">Web</button>
+                <button class="filter-btn" onclick="filterProjects('mobile', this)">Mobile</button>
+                <button class="filter-btn" onclick="filterProjects('script', this)">Script/System</button>
+            </div>
+
+            <div class="projects-grid" id="projectsContainer">
+                <!-- Proyek akan dimuat lewat JavaScript -->
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>// CONTACT ME</h2>
+            <div class="form-box">
+                <input type="text" id="senderName" placeholder="Nama Kamu...">
+                <textarea id="senderMessage" rows="4" placeholder="Pesan / Pengajuan Proyek..."></textarea>
+                <button class="btn" onclick="sendMessage()">KIRIM KE WHATSAPP</button>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 zyydev. Built with clean code & minimalist UI.</p>
+        </footer>
+    </div>
+
+    <!-- Modal Popup Detail Proyek -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Judul Proyek</h3>
+            <p id="modalDesc" style="color: var(--text-muted); font-size: 13px;">Deskripsi lengkap proyek akan muncul di sini.</p>
+            <button class="btn close-btn" onclick="closeModal()">TUTUP</button>
+        </div>
+    </div>
+
+    <script>
+        const defaultProjects = [
+            {
+                id: 1,
+                title: "Vault Foto Kenangan",
+                category: "web",
+                short: "Aplikasi web penyimpanan foto privat lokal dengan galeri interaktif.",
+                detail: "Aplikasi web portabel untuk menyimpan koleksi foto kenangan secara lokal. Dibangun menggunakan penyimpanan browser (localStorage) dan antarmuka minimalis bernuansa dark mode."
+            },
+            {
+                id: 2,
+                title: "SentinelCore Middleware",
+                category: "script",
+                short: "Sistem log auditing terpusat untuk ekstraksi log server ke format Splunk.",
+                detail: "Middleware auditing log yang dirancang untuk mengekstraksi dan menyelaraskan log server lokal ke dalam format terpadu yang kompatibel dengan sistem pemantauan Splunk."
+            },
+            {
+                id: 3,
+                title: "Digital Goods Platform",
+                category: "web",
+                short: "Platform top-up game dan produk digital berbasis Google Sheets DB.",
+                detail: "Platform web interaktif untuk transaksi produk digital dan top-up game otomatis, dilengkapi portal manajemen admin dan database backend menggunakan Google Sheets."
+            },
+            {
+                id: 4,
+                title: "ResilienceStressTester",
+                category: "script",
+                short: "Penguji ketahanan skrip dengan rotasi nonce otomatis & timestamp validation.",
+                detail: "Utilitas penguji sistem otomatis yang mengintegrasikan rotasi nonce dan validasi header timestamp untuk mengukur kekuatan skrip pada lingkungan uji."
+            }
+        ];
+
+        let currentFilter = 'all';
+
+        function getProjects() {
+            const stored = localStorage.getItem('zyydev_projects');
+            if (!stored) {
+                localStorage.setItem('zyydev_projects', JSON.stringify(defaultProjects));
+                return defaultProjects;
+            }
+            return JSON.parse(stored);
+        }
+
+        function renderProjects() {
+            const projects = getProjects();
+            const container = document.getElementById('projectsContainer');
+            container.innerHTML = '';
+
+            const filtered = currentFilter === 'all' 
+                ? projects 
+                : projects.filter(p => p.category === currentFilter);
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); font-size: 13px; grid-column: 1/-1;">Tidak ada proyek pada kategori ini.</p>';
+                return;
+            }
+
+            filtered.forEach(p => {
+                container.innerHTML += `
+                    <div class="project-card" data-category="${p.category}">
+                        <div>
+                            <h3>${escapeHtml(p.title)}</h3>
+                            <p>${escapeHtml(p.short)}</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn" onclick="openModal('${escapeHtml(p.title)}', '${escapeHtml(p.detail)}')">Lihat Detail</button>
+                            <button class="btn btn-delete" onclick="deleteProject(${p.id})">✕</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function addProject() {
+            const title = document.getElementById('projTitle').value.trim();
+            const category = document.getElementById('projCategory').value;
+            const short = document.getElementById('projShort').value.trim();
+            const detail = document.getElementById('projDetail').value.trim();
+
+            if (!title || !short || !detail) {
+                alert('Semua kolom proyek wajib diisi!');
+                return;
+            }
+
+            const projects = getProjects();
+            const newProj = {
+                id: Date.now(),
+                title,
+                category,
+                short,
+                detail
+            };
+
+            projects.unshift(newProj);
+            localStorage.setItem('zyydev_projects', JSON.stringify(projects));
+
+            document.getElementById('projTitle').value = '';
+            document.getElementById('projShort').value = '';
+            document.getElementById('projDetail').value = '';
+
+            renderProjects();
+            alert('Proyek "' + title + '" berhasil ditambahkan!');
+        }
+
+        function deleteProject(id) {
+            if (confirm('Yakin ingin menghapus proyek ini?')) {
+                let projects = getProjects();
+                projects = projects.filter(p => p.id !== id);
+                localStorage.setItem('zyydev_projects', JSON.stringify(projects));
+                renderProjects();
+            }
+        }
+
+        function filterProjects(category, btnElement) {
+            currentFilter = category;
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            if(btnElement) btnElement.classList.add('active');
+            renderProjects();
+        }
+
+        function openModal(title, desc) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDesc').innerText = desc;
+            document.getElementById('projectModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('projectModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('projectModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function sendMessage() {
+            const name = document.getElementById('senderName').value.trim();
+            const msg = document.getElementById('senderMessage').value.trim();
+            
+            if(!name || !msg) {
+                alert('Silakan isi nama dan pesan terlebih dahulu.');
+                return;
+            }
+
+            // Format nomor HP ke 62 (Kode Negara Indonesia)
+            const targetPhone = "6288975302651";
+            
+            // Format isi pesan WhatsApp
+            const text = `Halo zyydev,\n\nNama: ${name}\nPesan:\n${msg}`;
+            
+            // Membuka tautan WhatsApp
+            const waUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(text)}`;
+            window.open(waUrl, '_blank');
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+        }
+
+        renderProjects();
+    </script>
+
+</body>
+  </html>
+  
